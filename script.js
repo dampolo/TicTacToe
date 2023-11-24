@@ -70,8 +70,11 @@ function handleClick(cell, index) {
     }
 }
 
+// Die anybody win this game or not
 function isGameFinished() {
-    return fields.every((field) => field !== null) || getWinningCombination() !== null;
+    // return fields.every((field) => field !== null) || getWinningCombination() !== null;
+    return fields.every( function (field) { return field !== null}) || getWinningCombination() !== null;
+
 }
 
 function getWinningCombination() {
@@ -141,3 +144,19 @@ function generateAnimatedCrossCircle() {
 
     return svgCode;
 }
+
+
+ function restartGame() {
+    fields = [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+    ];
+    render()
+ }
