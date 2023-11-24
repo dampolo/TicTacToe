@@ -1,14 +1,17 @@
 let fields = [
     null,
-    'circle',
-    'circle',
-    'circle',
     null,
     null,
-    'cross',
-    'cross',
+    null,
+    null,
+    null,
+    null,
+    null,
     null,
 ];
+let currentPlayer = 'circle'
+
+
 
 function render() {
     const contentDiv = document.getElementById('content');
@@ -24,7 +27,7 @@ function render() {
             } else if (fields[index] === 'cross') {
                 symbol = generateAnimatedCrossCircle();
             }
-            tableHtml += `<td>${symbol}</td>`;
+            tableHtml += `<td onclick="handleClick(this, ${index})">${symbol}</td>`;
         }
         tableHtml += '</tr>';
     }
@@ -33,19 +36,49 @@ function render() {
     contentDiv.innerHTML = tableHtml;
 }
 
+// function handleClick(cell, index) {
+//     if (fields[index] === null) {
+//         fields[index] = currentPlayer;
+//         cell.innerHTML = currentPlayer === 'circle' ? generateAnimatedCircle() : generateAnimatedCrossCircle();
+//         cell.onclick = null;
+//         currentPlayer = currentPlayer === 'circle' ? 'cross' : 'circle';   
+//     }
+// }
+
+function handleClick(cell, index) {
+    if (fields[index] === null) {
+        fields[index] = currentPlayer;
+        if (currentPlayer === 'circle') {
+            cell.innerHTML = generateAnimatedCircle();
+        } else {
+            cell.innerHTML = generateAnimatedCrossCircle();
+        };
+        cell.onclick = null;
+        if (currentPlayer === 'circle') {
+            currentPlayer = 'cross';
+        } else {
+            currentPlayer = 'circle';
+        };
+        if(isGameFinished()) {
+            const winCombination = getWinningCombination();
+            drawWinningLine(winCombination)
+        }
+    }
+}
+
 
 function generateAnimatedCircle() {
     const svgCode = `
-        <svg width="70" height="70" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="35" cy="35" r="50" fill="none" stroke="#00B0FF" stroke-width="5">
-                <animate attributeName="r" from="30" to="30" dur=".5s" begin="0s" fill="freeze" />
-                <animate attributeName="stroke-dasharray" values="0 0; 188 50" dur=".4s" begin="0s" fill="freeze" />
+        <svg width="70" height="70">
+            <circle cx="35" cy="35" r="30" fill="none" stroke="#00B0FF" stroke-width="5">
+                <animate attributeName="stroke-dasharray" from="0 188.5" to="188.5 0" dur=".4s" begin="0s" fill="freeze" />
             </circle>
         </svg>
     `;
 
     return svgCode;
 }
+
 
 function generateAnimatedCrossCircle() {
     const svgCode = `
