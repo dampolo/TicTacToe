@@ -99,7 +99,7 @@ function isGameFinished() {
 
 function getWinningCombination() {
     for (let i = 0; i < winningCombinations.length; i++) {
-        const [a, b, c ] = winningCombinations[i];
+        const [a, b, c ] = winningCombinations[i]; // [0, 1, 2]
         if (fields[a] === fields[b] && fields[b] === fields[c] && fields[a] !== null)
             return winningCombinations[i]
     }
@@ -180,6 +180,6 @@ function generateAnimatedCross() {
         null,
     ];
     render()
-    questionTableEl.style.pointerEvents = "all";
+    document.getElementById("content").style.pointerEvents = "all";
     document.getElementById('starting-symbol').innerHTML = svgCircle;
  }
