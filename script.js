@@ -46,7 +46,7 @@ function render() {
             if(fields[index] === 'circle') {
                 symbol = generateAnimatedCircle();
             } else if (fields[index] === 'cross') {
-                symbol = generateAnimatedCrossCircle();
+                symbol = generateAnimatedCircle();
             }
             tableHtml += `<td onclick="handleClick(this, ${index})">${symbol}</td>`;
         }
@@ -85,6 +85,7 @@ function handleClick(cell, index) {
         if(isGameFinished()) {
             const winCombination = getWinningCombination();
             drawWinningLine(winCombination)
+            document.getElementById("content").style.pointerEvents = "none";
         }
     }
 }
@@ -179,5 +180,6 @@ function generateAnimatedCross() {
         null,
     ];
     render()
-    document.getElementById('starting-symbol').innerHTML = svgCircle
+    questionTableEl.style.pointerEvents = "all";
+    document.getElementById('starting-symbol').innerHTML = svgCircle;
  }
