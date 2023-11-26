@@ -11,6 +11,21 @@ let fields = [
 ];
 let currentPlayer = 'circle'
 
+const svgCircle = `
+    <svg width="70" height="70">
+    <circle cx="35" cy="35" r="30" fill="none" stroke="#00B0FF" stroke-width="5"></circle>
+    </svg>
+`
+
+const svgCross = `
+    <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+        <line x1="20" y1="70" x2="60" y2="30" stroke="#FFC000" stroke-width="5">
+        </line>
+        <line x1="20" y1="30" x2="60" y2="70" stroke="#FFC000" stroke-width="5">
+        </line>
+    </svg>
+`
+
 const winningCombinations = [
     [0, 1, 2], [3, 4, 5], [6, 7, 8],
     [0, 3, 6], [1, 4, 7], [2, 5, 8],
@@ -18,6 +33,8 @@ const winningCombinations = [
 ];
 
 function render() {
+    currentPlayer = 'circle'
+
     const contentDiv = document.getElementById('content');
 
     let tableHtml = '<table>';
@@ -53,9 +70,11 @@ function handleClick(cell, index) {
     if (fields[index] === null) {
         fields[index] = currentPlayer;
         if (currentPlayer === 'circle') {
+            document.getElementById('starting-symbol').innerHTML = svgCross
             cell.innerHTML = generateAnimatedCircle();
         } else {
-            cell.innerHTML = generateAnimatedCrossCircle();
+            document.getElementById('starting-symbol').innerHTML = svgCircle
+            cell.innerHTML = generateAnimatedCross();
         };
         cell.onclick = null;
         if (currentPlayer === 'circle') {
@@ -128,16 +147,17 @@ function generateAnimatedCircle() {
 }
 
 
-function generateAnimatedCrossCircle() {
+
+function generateAnimatedCross() {
     const svgCode = `
         <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
             <line x1="20" y1="70" x2="60" y2="30" stroke="#FFC000" stroke-width="5">
-                <animate attributeName="x2" from="20" to="60" dur=".4s" begin="0s" fill="freeze" />
-                <animate attributeName="y2" from="70" to="30" dur=".4s" begin="0s" fill="freeze" />
+                <animate attributeName="x2" from="20" to="60" dur=".1s" begin="0s" fill="freeze" />
+                <animate attributeName="y2" from="70" to="30" dur=".1s" begin="0s" fill="freeze" />
             </line>
             <line x1="20" y1="30" x2="60" y2="70" stroke="#FFC000" stroke-width="5">
-                <animate attributeName="x2" from="20" to="60" dur=".4s" begin="0s" fill="freeze" />
-                <animate attributeName="y2" from="30" to="70" dur=".4s" begin="0s" fill="freeze" />
+                <animate attributeName="x2" from="20" to="60" dur=".5s" begin="0s" fill="freeze" />
+                <animate attributeName="y2" from="30" to="70" dur=".5s" begin="0s" fill="freeze" />
             </line>
         </svg>
     `;
@@ -159,4 +179,5 @@ function generateAnimatedCrossCircle() {
         null,
     ];
     render()
+    document.getElementById('starting-symbol').innerHTML = svgCircle
  }
