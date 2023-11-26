@@ -71,9 +71,13 @@ function handleClick(cell, index) {
         fields[index] = currentPlayer;
         if (currentPlayer === 'circle') {
             document.getElementById('starting-symbol').innerHTML = svgCross
+            document.getElementById('description').innerHTML = `Cross`;
+            document.getElementById('description').style = "color: #FFC000";
             cell.innerHTML = generateAnimatedCircle();
         } else {
             document.getElementById('starting-symbol').innerHTML = svgCircle
+            document.getElementById('description').innerHTML = `Circle`;
+            document.getElementById('description').style = "color: #00B0FF";
             cell.innerHTML = generateAnimatedCross();
         };
         cell.onclick = null;
@@ -151,17 +155,17 @@ function generateAnimatedCircle() {
 
 function generateAnimatedCross() {
     const svgCode = `
-        <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
-            <line x1="20" y1="70" x2="60" y2="30" stroke="#FFC000" stroke-width="5">
-                <animate attributeName="x2" from="20" to="60" dur=".1s" begin="0s" fill="freeze" />
-                <animate attributeName="y2" from="70" to="30" dur=".1s" begin="0s" fill="freeze" />
-            </line>
-            <line x1="20" y1="30" x2="60" y2="70" stroke="#FFC000" stroke-width="5">
-                <animate attributeName="x2" from="20" to="60" dur=".5s" begin="0s" fill="freeze" />
-                <animate attributeName="y2" from="30" to="70" dur=".5s" begin="0s" fill="freeze" />
-            </line>
-        </svg>
-    `;
+    <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+    <line x1="20" y1="70" x2="60" y2="30" stroke="#FFC000" stroke-width="5">
+        <animate attributeName="x2" from="20" to="60" dur=".1s" begin="0s" fill="freeze" />
+        <animate attributeName="y2" from="70" to="30" dur=".1s" begin="0s" fill="freeze" />
+    </line>
+    <line x1="20" y1="30" x2="60" y2="70" stroke="#FFC000" stroke-width="5">
+        <animate attributeName="x2" from="20" to="60" dur=".5s" begin="0s" fill="freeze" />
+        <animate attributeName="y2" from="30" to="70" dur=".5s" begin="0s" fill="freeze" />
+    </line>
+</svg>
+`;
 
     return svgCode;
 }
