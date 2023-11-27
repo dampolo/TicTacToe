@@ -1,5 +1,8 @@
 let fields = [null, null, null, null, null, null, null, null, null];
 let currentPlayer = "circle";
+const descriptionEl = document.getElementById("description")
+const startingSymbolEl = document.getElementById("starting-symbol")
+const contentEL = document.getElementById("content");
 
 const svgCircle = `
     <svg width="70" height="70">
@@ -27,10 +30,12 @@ const winningCombinations = [
   [2, 4, 6],
 ];
 
+
 function render() {
   currentPlayer = "circle";
+  descriptionEl.innerHTML = `You are staring with:`;
+  descriptionEl.style = "color: #00B0FF";
 
-  const contentDiv = document.getElementById("content");
 
   let tableHtml = "<table>";
   for (let i = 0; i < 3; i++) {
@@ -49,30 +54,21 @@ function render() {
   }
   tableHtml += "</table>";
 
-  contentDiv.innerHTML = tableHtml;
+  contentEL.innerHTML = tableHtml;
 }
-
-// function handleClick(cell, index) {
-//     if (fields[index] === null) {
-//         fields[index] = currentPlayer;
-//         cell.innerHTML = currentPlayer === 'circle' ? generateAnimatedCircle() : generateAnimatedCrossCircle();
-//         cell.onclick = null;
-//         currentPlayer = currentPlayer === 'circle' ? 'cross' : 'circle';
-//     }
-// }
 
 function handleClick(cell, index) {
   if (fields[index] === null) {
     fields[index] = currentPlayer;
     if (currentPlayer === "circle") {
-      document.getElementById("starting-symbol").innerHTML = svgCross;
-      document.getElementById("description").innerHTML = `Cross`;
-      document.getElementById("description").style = "color: #FFC000";
+      startingSymbolEl.innerHTML = svgCross;
+      descriptionEl.innerHTML = `Cross`;
+      descriptionEl.style = "color: #FFC000";
       cell.innerHTML = generateAnimatedCircle();
     } else {
-      document.getElementById("starting-symbol").innerHTML = svgCircle;
-      document.getElementById("description").innerHTML = `Circle`;
-      document.getElementById("description").style = "color: #00B0FF";
+      startingSymbolEl.innerHTML = svgCircle;
+      descriptionEl.innerHTML = `Circle`;
+      descriptionEl.style = "color: #00B0FF";
       cell.innerHTML = generateAnimatedCross();
     }
     cell.onclick = null;
@@ -85,17 +81,19 @@ function handleClick(cell, index) {
       const winCombination = getWinningCombination();
       drawWinningLine(winCombination);
       if (fields[index] == "circle") {
-        document.getElementById("description").innerHTML = `Circle WON`;
-        document.getElementById("starting-symbol").innerHTML = svgCircle;
-        document.getElementById("description").style = "color: #00B0FF";
+        descriptionEl.innerHTML = `Circle WON`;
+        startingSymbolEl.innerHTML = svgCircle;
+        descriptionEl.style = "color: #00B0FF";
       } else {
-        document.getElementById("description").innerHTML = `Cross WON`;
-        document.getElementById("starting-symbol").innerHTML = svgCross;
-        document.getElementById("description").style = "color: #FFC000";
+        descriptionEl.innerHTML = `Cross WON`;
+        startingSymbolEl.innerHTML = svgCross;
+        descriptionEl.style = "color: #FFC000";
       }
+      contentEL.style.pointerEvents = "none";
     }
   }
 }
+
 // Die anybody win this game or not
 function isGameFinished() {
   // return fields.every((field) => field !== null) || getWinningCombination() !== null;
@@ -128,9 +126,7 @@ function drawWinningLine(combination) {
   const startRect = startCell.getBoundingClientRect();
   const endRect = endCell.getBoundingClientRect();
 
-  const contentRect = document
-    .getElementById("content")
-    .getBoundingClientRect();
+  const contentRect = contentEL.getBoundingClientRect();
 
   const lineLength = Math.sqrt(
     Math.pow(endRect.left - startRect.left, 2) +
@@ -154,7 +150,7 @@ function drawWinningLine(combination) {
   }px`;
   line.style.transform = `rotate(${lineAngle}rad)`;
   line.style.transformOrigin = `top left`;
-  document.getElementById("content").appendChild(line);
+  contentEL.appendChild(line);
 }
 
 function generateAnimatedCircle() {
@@ -189,6 +185,6 @@ function generateAnimatedCross() {
 function restartGame() {
   fields = [null, null, null, null, null, null, null, null, null];
   render();
-  document.getElementById("content").style.pointerEvents = "all";
-  document.getElementById("starting-symbol").innerHTML = svgCircle;
+  contentEL.style.pointerEvents = "all";
+  startingSymbolEl.innerHTML = svgCircle;
 }
